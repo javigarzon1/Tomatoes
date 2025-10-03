@@ -4,7 +4,7 @@ import { Play, Star, Film, Tv } from 'lucide-react';
 const MediaCard = ({ item, type, onHover, isHovered }) => {
   return (
     <div 
-      className={`bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer ${
+      className={`bg-gray-900 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer ${
         isHovered ? 'ring-2 ring-red-500' : ''
       }`}
       onMouseEnter={() => onHover(item.id)}
