@@ -3,44 +3,40 @@ import { Play, Star, Film, Tv } from 'lucide-react';
 
 const MediaCard = ({ item, type, onHover, isHovered }) => {
   return (
-    <div 
-      className={`bg-gray-900 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer ${
-        isHovered ? 'ring-2 ring-red-500' : ''
-      }`}
-      onMouseEnter={() => onHover(item.id)}
-      onMouseLeave={() => onHover(null)}
-    >
-      <div className="relative group">
-        <img 
-          src={item.image} 
-          alt={item.title}
-          className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
-          <Play className="text-white w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </div>
-        <div className="absolute top-4 right-4 bg-black bg-opacity-70 px-2 py-1 rounded-full">
-          <div className="flex items-center space-x-1">
-            <Star className="w-4 h-4 text-yellow-400 fill-current" />
-            <span className="text-white text-sm">{item.rating}</span>
-          </div>
-        </div>
-      </div>
-      
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xl font-bold text-white truncate">{item.title}</h3>
-          <span className="text-gray-500 text-sm">{item.year}</span>
-        </div>
-        <p className="text-gray-300 text-sm mb-3 line-clamp-3">{item.description}</p>
-        <div className="flex items-center justify-between">
-          <span className="px-3 py-1 bg-red-500 text-white text-xs rounded-full">{item.genre}</span>
-          <div className="flex items-center text-gray-400">
-            {type === 'movie' ? <Film className="w-4 h-4" /> : <Tv className="w-4 h-4" />}
-          </div>
-        </div>
-      </div>
+   <div 
+  className={`rounded-2xl overflow-hidden shadow-lg shadow-black/40 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-red-600/40 cursor-pointer ${
+    isHovered ? 'ring-2 ring-red-500/50' : ''
+  }`}
+  onMouseEnter={() => onHover(item.id)}
+  onMouseLeave={() => onHover(null)}
+>
+  <div className="relative group">
+    <img 
+      src={item.image} 
+      alt={item.title}
+      className="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-4">
+      <Play className="text-white w-10 h-10 mr-3 drop-shadow-lg" />
+      <span className="text-white font-semibold">Watch Now</span>
     </div>
+    <div className="absolute top-4 right-4 bg-black/70 px-3 py-1 rounded-full flex items-center space-x-1 shadow-md">
+      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+      <span className="text-white text-sm">{item.rating}</span>
+    </div>
+  </div>
+  
+  <div className="p-5 bg-gray-900/70 backdrop-blur-md">
+    <h3 className="text-xl font-bold text-white truncate">{item.title}</h3>
+    <p className="text-gray-300 text-sm mt-2 line-clamp-2">{item.description}</p>
+    <div className="flex justify-between items-center mt-4">
+      <span className="px-3 py-1 bg-gradient-to-r from-red-600 to-orange-500 text-white text-xs rounded-full shadow-md">
+        {item.genre}
+      </span>
+      {type === 'movie' ? <Film className="w-5 h-5 text-gray-400" /> : <Tv className="w-5 h-5 text-gray-400" />}
+    </div>
+  </div>
+</div>
   );
 };
 

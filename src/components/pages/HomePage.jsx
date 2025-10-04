@@ -40,11 +40,13 @@ const HomePage = ({ setCurrentPage }) => {
           <div 
             className="bg-gradient-to-br from-red-600 to-orange-700 rounded-2xl p-8 cursor-pointer transform hover:scale-105 hover:shadow-2xl transition-all duration-300 group"
             onClick={() => setCurrentPage('movies')}
-          >
-            <div className="flex items-center justify-center w-16 h-16 bg-white bg-opacity-20 rounded-full mb-6 group-hover:bg-opacity-30 transition-all">
-              <Film className="w-8 h-8 text-white" />
-            </div>
-            <h2 className="text-3xl font-bold text-white mb-4">Movies</h2>
+          ><div 
+  className="bg-gradient-to-br from-red-600 to-pink-600 rounded-2xl p-10 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-red-700/40 transition-all duration-500 group"
+  onClick={() => setCurrentPage('movies')}
+>
+  <div className="flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-md rounded-full mb-6 group-hover:bg-white/30">
+    <Film className="w-10 h-10 text-white" />
+  </div>
             <p className="text-red-100 mb-6">
               Descubre la lista de éxitos cinematográficos.
             </p>
@@ -82,7 +84,9 @@ const HomePage = ({ setCurrentPage }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>   
+ </div>
+
   );
 };
 
