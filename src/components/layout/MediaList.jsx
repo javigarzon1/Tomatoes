@@ -1,31 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import MediaCard from '../common/MediaCard';
 import FilterBar from '../common/FilterBar';
-import { motion } from "framer-motion";
-
-<motion.div 
-  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
->
-  {filteredItems.map(item => (
-    <motion.div 
-      key={item.id}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4 }}
-    >
-      <MediaCard
-        item={item}
-        type={type}
-        onHover={setHoveredCard}
-        isHovered={hoveredCard === item.id}
-      />
-    </motion.div>
-  ))}
-</motion.div>
-
+import { Film, Tv } from 'lucide-react';
 
 const MediaList = ({ items, type, title }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -46,13 +22,25 @@ const MediaList = ({ items, type, title }) => {
   }, [items, searchTerm, selectedYear]);
 
   return (
-    <div className="min-h-screen bg-gray-900">
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">{title}</h1>
-          <p className="text-gray-400">
-            Mostrando resultados {filteredItems.length} {filteredItems.length === 1 ? 'result' : 'results'}
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        {/* Header mejorado */}
+        <div className="mb-10">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-14 h-14 bg-gradient-to-br from-red-600 to-red-700 rounded-2xl flex items-center justify-center shadow-lg">
+              {type === 'movie' ? (
+                <Film className="w-7 h-7 text-white" />
+              ) : (
+                <Tv className="w-7 h-7 text-white" />
+              )}
+            </div>
+            <div>
+              <h1 className="text-5xl font-black text-white tracking-tight">{title}</h1>
+              <p className="text-gray-400 text-lg mt-1">
+                {filteredItems.length} {filteredItems.length === 1 ? 'resultado' : 'resultados'} encontrados
+              </p>
+            </div>
+          </div>
         </div>
 
         <FilterBar
@@ -63,23 +51,25 @@ const MediaList = ({ items, type, title }) => {
           years={years}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredItems.map(item => (
-            <MediaCard
-              key={item.id}
-              item={item}
-              type={type}
-              onHover={setHoveredCard}
-              isHovered={hoveredCard === item.id}
-            />
-          ))}
-        </div>
-
-        {filteredItems.length === 0 && (
-          <div className="text-center py-20">
-            <div className="text-gray-500 text-6xl mb-4">🔍</div>
-            <h3 className="text-2xl font-bold text-gray-400 mb-2">No encuentra lo que buscas</h3>
-            <p className="text-gray-500">Intenta concretar tu filtro de búsqueda</p>
+        {filteredItems.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredItems.map(item => (
+              <MediaCard
+                key={item.id}
+                item={item}
+                type={type}
+                onHover={setHoveredCard}
+                isHovered={hoveredCard === item.id}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-32">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-gray-800/50 rounded-full mb-6">
+              <span className="text-5xl">🔍</span>
+            </div>
+            <h3 className="text-3xl font-bold text-gray-300 mb-3">No se encontraron resultados</h3>
+            <p className="text-gray-500 text-lg">Intenta ajustar tus términos de búsqueda o filtros</p>
           </div>
         )}
       </div>
