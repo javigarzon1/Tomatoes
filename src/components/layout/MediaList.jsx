@@ -1,12 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import MediaCard from '../common/MediaCard';
-import FilterBar from '../common/FilterBar';
-import { Film, Tv } from 'lucide-react';
+import { Search } from 'lucide-react';
 
-const MediaList = ({ items, type, title }) => {
+const MediaList = ({ items, type, title, globalSearchTerm }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
-  const [hoveredCard, setHoveredCard] = useState(null);
+
+  useEffect(() => {
+    if (globalSearchTerm !== undefined) {
+      setSearchTerm(globalSearchTerm);
+    }
+  }, [globalSearchTerm]);
 
   const years = useMemo(() => {
     const allYears = items.map(item => item.year);
@@ -22,56 +26,63 @@ const MediaList = ({ items, type, title }) => {
   }, [items, searchTerm, selectedYear]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        {/* Header mejorado */}
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-14 h-14 bg-gradient-to-br from-red-600 to-red-700 rounded-2xl flex items-center justify-center shadow-lg">
-              {type === 'movie' ? (
-                <Film className="w-7 h-7 text-white" />
-              ) : (
-                <Tv className="w-7 h-7 text-white" />
-              )}
+    <div className="min-h-screen bg-black">
+      <div className="w-full">
+        <div className="max-w-[1600px] mx-auto px-6 py-8">
+          
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-white text-3xl font-bold mb-6">{title}</h1>
+            
+            {/* Filtros locales */}
+            <div className="flex gap-4 mb-6">
+              <div className="relative flex-1 max-w-md">
+                <input
+                  type="text"
+                  placeholder="Buscar..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-white placeholder-gray-600 focus:outline-none focus:border-gray-700 text-sm"
+                />
+                <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  <Search className="w-4 h-4" />
+                </button>
+              </div>
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                className="px-4 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-white focus:outline-none focus:border-gray-700 text-sm"
+              >
+                <option value="">Todos los años</option>
+                {years.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
             </div>
-            <div>
-              <h1 className="text-5xl font-black text-white tracking-tight">{title}</h1>
-              <p className="text-gray-400 text-lg mt-1">
-                {filteredItems.length} {filteredItems.length === 1 ? 'resultado' : 'resultados'} encontrados
-              </p>
-            </div>
+
+            <p className="text-gray-500 text-sm">
+              {filteredItems.length} {filteredItems.length === 1 ? 'resultado' : 'resultados'}
+            </p>
           </div>
+
+          {/* Grid de items */}
+          {filteredItems.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+              {filteredItems.map(item => (
+                <MediaCard
+                  key={item.id}
+                  item={item}
+                  type={type}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <p className="text-gray-500 text-lg">No se encontraron resultados</p>
+            </div>
+          )}
+
         </div>
-
-        <FilterBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          selectedYear={selectedYear}
-          setSelectedYear={setSelectedYear}
-          years={years}
-        />
-
-        {filteredItems.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredItems.map(item => (
-              <MediaCard
-                key={item.id}
-                item={item}
-                type={type}
-                onHover={setHoveredCard}
-                isHovered={hoveredCard === item.id}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-32">
-            <div className="inline-flex items-center justify-center w-24 h-24 bg-gray-800/50 rounded-full mb-6">
-              <span className="text-5xl">🔍</span>
-            </div>
-            <h3 className="text-3xl font-bold text-gray-300 mb-3">No se encontraron resultados</h3>
-            <p className="text-gray-500 text-lg">Intenta ajustar tus términos de búsqueda o filtros</p>
-          </div>
-        )}
       </div>
     </div>
   );

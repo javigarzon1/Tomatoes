@@ -2,14 +2,15 @@ import React from 'react';
 import MediaList from '../layout/MediaList';
 import { getMovies } from '../../services/api';
 
-const MoviesPage = () => {
+const MoviesPage = ({ globalSearchTerm }) => {
   const movies = getMovies();
   
   return (
     <MediaList
       items={movies}
       type="movie"
-      title="Movies"
+      title="Películas"
+      globalSearchTerm={globalSearchTerm}
     />
   );
 };
